@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 import json
-from random import getrandbits, choice
 import base64
 import hmac
 import hashlib
+from random import getrandbits, choice
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
 from datetime import datetime
 
-from utils import utfize, html_unescape, escape, filter_json_index_by_year
+from atoma import parse_rss_bytes
 
+from utils import u, html_unescape, escape, filter_json_index_by_year
+
+json_index_content = {}
 twitter_api_version = '1.0'
 twitter_api_method = 'HMAC-SHA1'
 twitter_api_end = 'https://api.twitter.com/1.1/statuses/update.json'
-twitter_consumer_key = 'EfRsYNSXgd62lFtuP1RahQ'
-twitter_consumer_secret = '5EAk7IYlUQe3GX00bONoHx0fDJbuVUYMMDfEbbIsuY'
-twitter_oauth_token = '320430429-896na1d2phjByw67KI3jr1poGtW5V2jJcZp9Zp1x'
-twitter_oauth_secret = 'pAw4XsOjqBBOqaeLw7TtnwHQrY12dLdktRZ9GQyMyGwoA'
-json_index_url = 'http://huntingbears.com.ve/static/json/index.json'
-
-print('Starting publication of random post to Twitter')
+twitter_consumer_key = os.environ.get('TWITTER_CONSUMER_KEY')
+twitter_consumer_secret = os.environ.get('TWITTER_CONSUMER_SECRET')
+twitter_oauth_token = os.environ.get('TWITTER_OAUTH_TOKEN')
+twitter_oauth_secret = os.environ.get('TWITTER_OAUTH_SECRET')
+feed_url = os.environ.get('FEED_URL')
+feed_data = parse_rss_bytes(urlopen(feed_url).read())
 
 current_timestamp = int(datetime.now().strftime('%Y%m%d%H%M%S'))
 current_hour = int(datetime.now().strftime('%H'))
@@ -31,7 +34,14 @@ if current_hour not in [2, 6, 9, 14, 17, 21]:
     print('Script wasnt called in a recommended hour. Aborting.')
     sys.exit(0)
 
-json_index_content = json.loads(str(urlopen(json_index_url).read(), 'utf-8'))
+for post in feed_data.items:
+    post_timestamp = post.pub_date.strftime('%Y%m%d%H%M%S')
+    json_index_content[post_timestamp] = {
+        'title': post.title,
+        'url': post.guid,
+        'date': post.pub_date
+    }
+
 json_index_filtered = filter_json_index_by_year(json_index_content)
 
 if not json_index_filtered:
@@ -40,8 +50,8 @@ if not json_index_filtered:
 
 random_post_id = choice(list(json_index_filtered.keys()))
 random_post_title = json_index_content[random_post_id]['title']
-random_post_title = utfize(html_unescape(random_post_title))
-random_post_url = utfize('{0}#{1}'.format(
+random_post_title = u(html_unescape(random_post_title))
+random_post_url = u('{0}#{1}'.format(
     json_index_filtered[random_post_id]['url'],
     current_timestamp))
 
