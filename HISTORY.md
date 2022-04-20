@@ -1,16 +1,25 @@
 # Changelog
 
 
+## 0.2.0 (2022-04-20)
+
+### Changed
+
+* Removin unused import. [Luis Alejandro Martínez Faneyth]
+
+* Using external lib for tweeting. [Luis Alejandro Martínez Faneyth]
+
+
 ## 0.1.1 (2020-04-15)
 
-### Changes
+### Changed
 
 * Changing branding. [Luis Alejandro Martínez Faneyth]
 
 
 ## 0.1.0 (2020-04-15)
 
-### Changes
+### Changed
 
 * Adding github action boilerplate. [Luis Alejandro Martínez Faneyth]
 
@@ -22,11 +31,13 @@
 
 * Migrating from Openshift to GitLab. [Luis Alejandro Martínez Faneyth]
 
-### Fix
+
+### Fixed
 
 * Fixing correct version. [Luis Alejandro Martínez Faneyth]
 
 * Fixing script command. [Luis Alejandro Martínez Faneyth]
+
 
 ### Other
 
@@ -37,5 +48,4 @@
 * S. [Luis Alejandro Martínez Faneyth]
 
 * Creating template. [Template builder]
-
 
