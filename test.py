@@ -50,11 +50,10 @@ max_age_timestamp = int(max_age_delta.strftime('%Y%m%d%H%M%S'))
 
 for post in feed_data.items:
 
-    item_timestamp = int(post.pub_date.strftime('%Y%m%d%H%M%S'))
+    item_timestamp = post.pub_date.strftime('%Y%m%d%H%M%S')
 
-    if item_timestamp > max_age_timestamp:
-
-        json_index_content[str(item_timestamp)] = {
+    if int(item_timestamp) >= max_age_timestamp:
+        json_index_content[item_timestamp] = {
             'title': post.title,
             'url': post.guid,
             'date': post.pub_date
@@ -67,4 +66,6 @@ status_text = '{0} {1}#{2}'.format(
     json_index_content[random_post_id]['url'],
     today.strftime('%Y%m%d%H%M%S'))
 
-api.update_status(status_text)
+tweet = api.update_status(status_text)
+time.sleep(10)
+api.destroy_status(tweet.id)

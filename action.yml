@@ -1,12 +1,13 @@
 name: tweet-random-post-from-feed
 author: Luis Alejandro Martínez Faneyth
-description: GitHub Action for tweeting the latest entry from an atom feed
+description: GitHub Action for tweeting a random entry from an atom feed
 
 runs:
   using: docker
   image: Dockerfile
+  entrypoint: /entrypoint.sh
   args:
-    - entrypoint.py
+    - /entrypoint.py
 
 branding:
   icon: at-sign
