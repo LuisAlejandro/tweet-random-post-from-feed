@@ -1,12 +1,4 @@
-<p align='center'>
-  <img src="https://github.com/LuisAlejandro/tweet-random-post-from-feed/blob/develop/branding/banner.svg">
-  <h3 align="center">Tweet random post from feed</h3>
-  <p align="center">GitHub Action for tweeting a random entry from an atom feed</p>
-</p>
-
----
-
-Current version: 0.2.0
+# Development of this app has been halted in favor of [Agoras](https://github.com/LuisAlejandro/agoras)
 
 ## 🎒 Prep Work
 
